@@ -22,13 +22,13 @@ class FrontEndController extends Controller
     }
 
     public function menu(Request $req)
-    {   
+    {
     	$data = Masakan::join('kategori','kategori.id','masakan.kategori_id')
             ->orWhere('nama_masakan','like',"%{$req->keyword}%")
             ->orWhere('kategori.id',$req->kategori_id)
             ->select('masakan.*','nama_kategori')
             ->orderBy('updated_at','desc')
-            ->paginate(9);
+            ->paginate(99);
             return view('frontend2.menu', compact('data'));
     }
 
@@ -60,7 +60,7 @@ class FrontEndController extends Controller
         //return json_encode($req->session()->get('cart'));
 
         return back()->with('result','success');
-        
+
     }
 
     public function getRemoveItem($id)
@@ -74,7 +74,7 @@ class FrontEndController extends Controller
         } else {
             Session::forget('cart');
         }
-        
+
         return redirect()->route('shopping.cart');
     }
 
@@ -107,12 +107,12 @@ class FrontEndController extends Controller
     {
         if (!Session::has('cart')) {
             return view('frontend2.shopping-cart');
-        }   
+        }
         //$ppn = (['totalPrice']*10%);
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
         return view('frontend2.shopping-cart', ['data' => $cart->items, 'totalPrice'=>$cart->totalPrice]);
-        //return response()->json(['data' => $cart->items, 'totalPrice'=>$cart->totalPrice]); 
+        //return response()->json(['data' => $cart->items, 'totalPrice'=>$cart->totalPrice]);
     }
 
     public function destroy()
@@ -164,11 +164,11 @@ class FrontEndController extends Controller
             $order->status_order = $req->status_order;
             $order->save();
         } catch (Exception $e) {
-            
+
         }
         alert()->success('Silahkan lakukan Pembayaran ke Kasir!.', 'Order Berhasil')->persistent('oke');
         Session::forget('cart');
-        return redirect()->route('thankyou')->with('result','success');      
+        return redirect()->route('thankyou')->with('result','success');
     }
 
     public function thanks()
@@ -190,6 +190,6 @@ class FrontEndController extends Controller
             $order->cart = unserialize($order->cart);
             return $order;
         });
-        return view('frontend2.history', compact('orders'));   
+        return view('frontend2.history', compact('orders'));
     }
 }

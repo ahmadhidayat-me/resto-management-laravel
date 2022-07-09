@@ -52,10 +52,12 @@ class LoginController extends Controller
             return route('cashier');
         } else if($user['level']=='waiter') {
             return route('entri.order');
+        } else if($user['level']=='dapur') {
+            return route('entri.order');
         } else {
             return route('admin.home');
         }
-        
-        
+
+
     }
 }

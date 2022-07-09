@@ -43,7 +43,7 @@ class OrderController extends Controller
         } else {
            alert()->info('Harap Periksa lagi data Formulir anda.','Tidak Tersimpan!')->autoclose(4000);
         }
-        
+
     }
 
     public function edit($id_order)
@@ -54,7 +54,7 @@ class OrderController extends Controller
 
     public function update (Request $req)
     {
-        
+
         $field = [
                 'id_order'=>$req->id_order,
                 'no_meja'=>$req->no_meja,
@@ -83,11 +83,11 @@ class OrderController extends Controller
             alert()->success('Data Berhasil Terhapus dari Database.', 'Terhapus!')->autoclose(3000);
             return redirect()->route('admin.order');
         }
-        
+
     }
 
     public function entri(Request $req)
-    {     
+    {
         $orders = Order::where('status_order','Pending')->orderBy('updated_at','desc')->get();
         $orders->transform(function($order) {
             $order->cart = unserialize($order->cart);

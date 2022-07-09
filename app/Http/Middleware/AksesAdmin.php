@@ -18,6 +18,8 @@ class AksesAdmin
     {
         if(Auth::user()->level == 'owner' && $role1 == 'owner') {
             return $next($request);
+        } else if (Auth::user()->level == 'dapur' && $role1 == 'dapur') {
+            return $next($request);
         } else if (Auth::user()->level == 'waiter' && $role1 == 'waiter') {
             return $next($request);
         } else if (Auth::user()->level == 'kasir' && $role1 == 'kasir') {
